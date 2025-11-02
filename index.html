@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misachi - Bot Discord Đa Chức Năng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Misachi - Discord Bot Giải Trí</title>
     <style>
         * {
             margin: 0;
@@ -14,541 +12,1339 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #1a1a2e;
-            color: white;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            position: relative;
             overflow-x: hidden;
         }
 
-        /* Background effects */
-        .bg-container {
+        /* Animated Grid Background */
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            background-image: 
+                linear-gradient(rgba(56, 189, 248, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.15) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            background: #1a1a2e;
-        }
-
-        .bg-image {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('background.png') center/cover no-repeat;
-            filter: blur(150px) brightness(0.4);
-            transform: scale(1.2);
-        }
-
-        .bg-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(100px);
-        }
-
-        .bg-text {
-            position: absolute;
-            font-size: 35vw;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.03);
-            white-space: nowrap;
-            user-select: none;
+            z-index: -1;
             pointer-events: none;
         }
 
-        .bg-text-1 {
-            top: 15%;
-            left: -10%;
-            transform: rotate(-5deg);
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(56, 189, 248, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite;
         }
 
-        .bg-text-2 {
-            top: 50%;
-            right: -15%;
-            transform: rotate(5deg);
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(-100vh) translateX(50px) scale(0);
+                opacity: 0;
+            }
         }
 
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 0;
-            background: rgba(0, 0, 0, 0.5);
+        /* Navbar with blur effect */
+        nav {
+            background: rgba(10, 10, 20, 0.7);
             backdrop-filter: blur(20px);
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 3rem;
         }
 
-        .nav-logo {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            font-size: 1.5rem;
-            font-weight: 700;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            transition: transform 0.3s;
+            cursor: pointer;
         }
 
-        .logo-img {
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
             width: 45px;
             height: 45px;
+            min-width: 45px;
+            min-height: 45px;
+            background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+            overflow: hidden;
+            border: 2px solid rgba(56, 189, 248, 0.5);
+            position: relative;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(56, 189, 248, 0.9); }
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
         }
 
         .nav-links {
             display: flex;
-            list-style: none;
             gap: 2.5rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Main content */
-        .main-content {
-            position: relative;
-            z-index: 1;
-            padding-top: 100px;
-        }
-
-        /* Hero section */
-        .hero {
-            text-align: center;
-            padding: 8rem 2rem;
-            max-width: 1200px;
+            list-style: none;
             margin: 0 auto;
         }
 
-        .hero-title {
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 900;
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
-            text-shadow: 0 0 60px rgba(102, 126, 234, 0.5);
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 3rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
+        .nav-links a {
+            color: #cbd5e1;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.7rem;
-            transition: all 0.3s ease;
-            border: none;
+            transition: all 0.3s;
+            font-weight: 400;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #38bdf8, #3b82f6);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .invite-btn {
+            background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
+            padding: 0.65rem 1.4rem;
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .invite-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .invite-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .invite-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 30px rgba(56, 189, 248, 0.6);
+        }
+
+        /* Page Container */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Hero Section with animations */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #38bdf8 0%, #ff6b9d 50%, #c471f5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 5s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #bbb;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .highlight {
+            color: #38bdf8;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(56, 189, 248, 0.8); }
+        }
+
+        /* Stats with hover effects */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .stat-item {
+            background: rgba(56, 189, 248, 0.08);
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
         }
 
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
+            animation: rotate 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 50px rgba(56, 189, 248, 0.5);
+            border-color: rgba(56, 189, 248, 0.8);
+        }
+
+        .stat-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            margin-top: 0.3rem;
+            font-size: 0.85rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Buttons with ripple effect */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .btn:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
         .btn-primary {
-            background: rgba(255, 255, 255, 0.9);
-            color: #1a1a2e;
-            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
+            color: #fff;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
         }
 
         .btn-primary:hover {
-            background: white;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(56, 189, 248, 0.6);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 2px solid rgba(56, 189, 248, 0.3);
             backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-3px);
+            background: rgba(56, 189, 248, 0.1);
+            border-color: #38bdf8;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
         }
 
-        .btn-support {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+        /* Bot Image with 3D effect */
+        .bot-image {
+            max-width: 600px;
+            margin: 3rem auto;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(56, 189, 248, 0.5);
+            border: 3px solid rgba(56, 189, 248, 0.4);
+            transition: all 0.5s;
+            animation: fadeInUp 1s ease-out 0.8s both;
+            position: relative;
         }
 
-        .btn-support:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-3px);
+        .bot-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
         }
 
-        /* Features section */
+        .bot-image:hover::before {
+            left: 100%;
+        }
+
+        .bot-image:hover {
+            transform: scale(1.05) rotateY(5deg);
+            box-shadow: 0 30px 100px rgba(56, 189, 248, 0.7);
+        }
+
+        .bot-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .bot-image:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Features with stagger animation and images */
         .features {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 4rem 3rem;
-        }
-
-        .features-grid {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
+            background: rgba(20, 20, 40, 0.6);
+            padding: 2rem;
             border-radius: 20px;
-            padding: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out both;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
         }
 
         .feature-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-10px) scale(1.02);
+            border-color: #38bdf8;
+            box-shadow: 0 15px 50px rgba(56, 189, 248, 0.4);
+        }
+
+        .feature-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .feature-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .feature-card:hover .feature-image img {
+            transform: scale(1.1);
         }
 
         .feature-icon {
             font-size: 3rem;
-            margin-bottom: 1.5rem;
-            display: block;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(10deg);
         }
 
         .feature-title {
-            font-size: 1.6rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            color: #38bdf8;
             margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .feature-card:hover .feature-title {
+            color: #60d5ff;
         }
 
         .feature-desc {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.7);
+            color: #bbb;
+            line-height: 1.6;
+        }
+
+        /* TOS Page Styles */
+        .tos-container {
+            display: none;
+        }
+
+        .tos-container.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .tos-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .tos-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tos-header .update-date {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .tos-content {
+            background: rgba(20, 20, 40, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .tos-section {
+            margin-bottom: 3rem;
+        }
+
+        .tos-section h2 {
+            color: #38bdf8;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tos-section h3 {
+            color: #60d5ff;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .tos-section p {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .tos-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tos-section ul li {
+            color: #cbd5e1;
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .tos-section ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid #38bdf8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: #38bdf8;
+            transform: translateX(-5px);
         }
 
         /* Footer */
-        .footer {
-            text-align: center;
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             padding: 3rem 2rem;
             margin-top: 4rem;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(56, 189, 248, 0.3);
         }
 
-        .footer-links {
-            display: flex;
-            justify-content: center;
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
         }
 
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.6);
+        .footer-section h3 {
+            color: #38bdf8;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, #38bdf8, transparent);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #bbb;
             text-decoration: none;
-            transition: color 0.3s ease;
+            display: block;
+            margin: 0.5rem 0;
+            transition: all 0.3s;
+            position: relative;
+            padding-left: 0;
         }
 
-        .footer-links a:hover {
+        .footer-section a::before {
+            content: '→';
+            position: absolute;
+            left: -20px;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #38bdf8;
+            padding-left: 20px;
+        }
+
+        .footer-section a:hover::before {
+            opacity: 1;
+            left: 0;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .mobile-menu-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+            font-size: 1.5rem;
             color: white;
         }
 
-        .footer-text {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.95rem;
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-container {
-                padding: 0 1.5rem;
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 30px rgba(56, 189, 248, 0.7);
+        }
+
+        @media (max-width: 968px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: rgba(10, 10, 20, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transition: left 0.3s;
+                border-bottom: 1px solid rgba(56, 189, 248, 0.3);
             }
 
-            .nav-links {
+            .nav-links.active {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .invite-btn {
                 display: none;
             }
 
-            .hero {
-                padding: 4rem 1.5rem;
+            h1 {
+                font-size: 2.5rem;
             }
 
-            .hero-title {
-                font-size: 3rem;
+            .stats {
+                gap: 1rem;
             }
 
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-
-            .hero-buttons {
+            .button-group {
                 flex-direction: column;
                 align-items: center;
             }
 
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-
-            .features {
+            .tos-content {
                 padding: 2rem 1.5rem;
             }
 
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .bg-text {
-                font-size: 50vw;
-            }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 1rem;
+            .tos-header h1 {
+                font-size: 2rem;
             }
         }
 
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
 
-        .hero-title {
-            animation: float 6s ease-in-out infinite;
-        }
+            .feature-card {
+                padding: 1.5rem;
+            }
 
-        /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
+            .tos-section h2 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Background -->
-    <div class="bg-container">
-        <div class="bg-image"></div>
-        <div class="bg-overlay"></div>
-        <div class="bg-text bg-text-1">MISACHI</div>
-        <div class="bg-text bg-text-2">MISACHI</div>
-    </div>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
 
     <!-- Navbar -->
-    <nav class="navbar">
+    <nav>
         <div class="nav-container">
-            <div class="nav-logo">
-                <div class="logo-img"></div>
+            <div class="logo" onclick="showHome()">
+                <div class="logo-icon" id="botAvatar">
+                    <img src="https://cdn.discordapp.com/avatars/1354343688121221131/e98e15706673b26f5483a13203c4d731.webp?size=1024" alt="Misachi Logo">
+                </div>
                 <span>Misachi</span>
             </div>
-            <ul class="nav-links">
-                <li><a href="#home">Trang chủ</a></li>
-                <li><a href="#features">Cửa hàng</a></li>
-                <li><a href="#vote">Vote</a></li>
-                <li><a href="#about">Thêm vào máy chủ</a></li>
-                <li><a href="#login">Đăng nhập</a></li>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showHome()">Trang chủ</a></li>
+                <li><a href="#" onclick="showTOS()">Điều khoản</a></li>
             </ul>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <a href="https://discord.com/oauth2/authorize?client_id=1354343688121221131&permissions=1759218604441591&integration_type=0&scope=bot+applications.commands" class="invite-btn">➕ Mời bot</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="main-content">
+    <!-- Home Content -->
+    <div id="homeContent">
         <!-- Hero Section -->
         <section class="hero" id="home">
-            <h1 class="hero-title">Misachi</h1>
-            <p class="hero-subtitle">Bot Discord đa chức năng hàng đầu tại Việt Nam</p>
-            <div class="hero-buttons">
-                <a href="https://discord.com/oauth2/authorize?client_id=1354343688121221131&permissions=1759218604441591&integration_type=0&scope=bot+applications.commands" class="btn btn-primary">
-                    <i class="fas fa-robot"></i>
-                    Mời Bot
-                </a>
-                <a href="#features" class="btn btn-secondary">
-                    <i class="fas fa-rocket"></i>
-                    Vote
-                </a>
-                <a href="#" class="btn btn-support">
-                    <i class="fab fa-discord"></i>
-                    Discord hỗ trợ
-                </a>
+            <h1>Discord Bot Phức Hợp: Misachi</h1>
+            <p class="subtitle">
+                MinhSoora mang đến cho bạn 1 bot discord nhiều chức năng.<br>
+                Dễ dàng sử dụng, hỗ trợ bạn cách sử dụng.<br>
+                Dàng thiết lập và hoàn toàn <span class="highlight">miễn phí</span>.
+            </p>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">⭐ 5/5</div>
+                    <div class="stat-label">(đánh giá)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">👥 10+</div>
+                    <div class="stat-label">servers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">👍 0</div>
+                    <div class="stat-label">votes mỗi tháng</div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <a href="https://discord.com/oauth2/authorize?client_id=1354343688121221131&permissions=1759218604441591&integration_type=0&scope=bot+applications.commands" class="btn btn-primary">📦 Mời bot</a>
+                <a href="https://top.gg/bot/1354343688121221131" class="btn btn-secondary">👍 Vote bot</a>
+                <a href="https://minhsoora.site/donate" class="btn btn-secondary">❤️ Hỗ trợ</a>
+            </div>
+
+            <!-- Bot Image -->
+            <div class="bot-image">
+                <img src="Screenshot_20251101_183710_Facebook_251102014914.jpg" alt="Misachi Character">
             </div>
         </section>
 
-        <!-- Features Section -->
+        <!-- Features -->
         <section class="features" id="features">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">💰</span>
-                    <h3 class="feature-title">Economy</h3>
-                    <p class="feature-desc">Hệ thống Economy toàn diện với nhiều trò chơi thú vị. Kiếm tiền, giao dịch và tham gia các hoạt động kinh tế trong server.</p>
+            <div class="feature-card">
+                <div class="feature-image">
+                    <img src="economy.png" alt="Economy" onerror="this.parentElement.style.display='none'">
                 </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">❤️</span>
-                    <h3 class="feature-title">Emotion</h3>
-                    <p class="feature-desc">Thể hiện cảm xúc với các thành viên khác qua hàng chục lệnh như hug, kiss, pat, dance và nhiều hơn nữa.</p>
+                <div class="feature-icon">💰</div>
+                <h3 class="feature-title">Economy</h3>
+                <p class="feature-desc">Kiếm tiền, đánh bạc và vươn lên đầu trên bảng xếp hạng!</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-image">
+                    <img src="km_20251102_480p_15f_20251102_094548.gif" alt="Mini-games" onerror="this.parentElement.style.display='none'">
                 </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🤖</span>
-                    <h3 class="feature-title">AutoResponder</h3>
-                    <p class="feature-desc">Tự động phản hồi tin nhắn thông minh với từ khóa được thiết lập. Hỗ trợ regex và wildcards nâng cao.</p>
+                <div class="feature-icon">👋</div>
+                <h3 class="feature-title">Tự động thông báo khi có người tham gia phòng Voice</h3>
+                <p class="feature-desc">Bằng lệnh /toggle voicenotify, bạn có thể mở chức năng này khiến server của bạn thú vị hơn.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-image">
+                    <img src="kmc_20251102_095315.png" alt="Thiết lập dễ dàng" onerror="this.parentElement.style.display='none'">
                 </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">📌</span>
-                    <h3 class="feature-title">Sticky Message</h3>
-                    <p class="feature-desc">Giữ tin nhắn quan trọng luôn hiển thị ở cuối kênh. Hoàn hảo cho thông báo và quy tắc server.</p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🎮</span>
-                    <h3 class="feature-title">Games</h3>
-                    <p class="feature-desc">Nhiều trò chơi giải trí hấp dẫn để tăng tương tác trong server của bạn.</p>
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">⚙️</span>
-                    <h3 class="feature-title">Moderation</h3>
-                    <p class="feature-desc">Công cụ quản lý mạnh mẽ để duy trì trật tự và an toàn cho server.</p>
-                </div>
+                <div class="feature-icon">🐶</div>
+                <h3 class="feature-title">Hệ thống thú vật</h3>
+                <p class="feature-desc">Săn bắt và tìm kiếm những con vật, sinh vật đặc biệt và chiến đấu!</p>
             </div>
         </section>
-    </main>
+    </div>
+
+    <!-- TOS Content -->
+    <div id="tosContent" class="tos-container">
+        <div class="page-container">
+            <a href="#" class="back-btn" onclick="showHome()">← Quay lại trang chủ</a>
+            
+            <div class="tos-header">
+                <h1>Điều khoản Dịch vụ</h1>
+                <p class="update-date">Vui lòng đọc kỹ các điều khoản trước khi sử dụng dịch vụ của chúng tôi</p>
+                <p class="update-date">Cập nhật lần cuối: 11/07/2025</p>
+            </div>
+
+            <div class="tos-content">
+                <div class="tos-section">
+                    <h2>📋 Giới thiệu</h2>
+                    <p>Điều khoản Dịch vụ này (gọi tắt là "Điều khoản") là thỏa thuận pháp lý giữa bạn ("Người dùng") và Bot Misaka, cùng đơn vị quản lý MinhSoora.</p>
+                    <p>Khi sử dụng dịch vụ của chúng tôi, bạn xác nhận rằng bạn đã đọc, hiểu rõ và đồng ý tuân thủ mọi điều khoản được nêu ra trong tài liệu này.</p>
+                    
+                    <div class="highlight-box">
+                        <p><strong>Lưu ý quan trọng:</strong> MinhSoora có quyền điều chỉnh, bổ sung hoặc thay đổi nội dung Điều khoản bất kỳ lúc nào mà không cần thông báo trước. Vì vậy, bạn nên thường xuyên kiểm tra để cập nhật phiên bản mới nhất.</p>
+                    </div>
+                </div>
+
+                <div class="tos-section">
+                    <h2>📞 Thông tin Liên hệ</h2>
+                    <p>Để liên hệ với chúng tôi về bất kỳ vấn đề gì liên quan đến dịch vụ, vui lòng sử dụng thông tin dưới đây:</p>
+                    
+                    <h3>Thông tin Developer</h3>
+                    <ul>
+                        <li><strong>Email:</strong> minhsoora@gmail.com</li>
+                        <li><strong>Số điện thoại:</strong> +84 903 618 454</li>
+                        <li><strong>Discord Server:</strong> <a href="https://dsc.gg/marus" style="color: #38bdf8;">dsc.gg/marus</a></li>
+                    </ul>
+                </div>
+
+                <div class="tos-section">
+                    <h2>📜 Điều khoản Sử dụng Bot</h2>
+                    <p>Khi sử dụng Bot Misaka trong server Discord của bạn, bạn cam kết tuân thủ các quy định sau:</p>
+                    <ul>
+                        <li>Không sử dụng tiền tệ ảo của Bot cho bất kỳ giao dịch, trao đổi hoặc mua bán dưới mọi hình thức ngoài đời thực.</li>
+                        <li>Không sử dụng Bot để spam, làm phiền hoặc quấy rối các thành viên khác trong server.</li>
+                        <li>Không cố gắng khai thác lỗi, hack hoặc lạm dụng các tính năng của Bot để thu lợi bất chính.</li>
+                        <li>Tuân thủ nghiêm ngặt các quy tắc và điều khoản sử dụng của Discord Platform.</li>
+                        <li>Sử dụng Bot một cách có trách nhiệm, tôn trọng và không vi phạm pháp luật.</li>
+                        <li>Không sử dụng Bot cho các mục đích bất hợp pháp hoặc có hại đến cộng đồng.</li>
+                    </ul>
+                    
+                    <h3>⚠️ Hậu quả vi phạm</h3>
+                    <div class="highlight-box">
+                        <p>Vi phạm bất kỳ điều khoản nào có thể dẫn đến việc khóa tài khoản vĩnh viễn, blacklist khỏi hệ thống hoặc chấm dứt dịch vụ ngay lập tức mà không cần báo trước.</p>
+                    </div>
+                </div>
+
+                <div class="tos-section">
+                    <h2>✅ Trách nhiệm của MinhSoora</h2>
+                    <p>MinhSoora cam kết và có trách nhiệm:</p>
+                    <ul>
+                        <li>Cung cấp dịch vụ với tính ổn định, bảo mật và hiệu suất tốt nhất trong phạm vi có thể.</li>
+                        <li>Xử lý mọi khiếu nại, tranh chấp và xung đột một cách công bằng, minh bạch và kịp thời.</li>
+                        <li>Bảo vệ thông tin cá nhân và dữ liệu của người dùng theo chính sách bảo mật nghiêm ngặt.</li>
+                        <li>Liên tục cải thiện, phát triển và bổ sung các tính năng mới cho Bot.</li>
+                        <li>Hỗ trợ kỹ thuật và giải đáp thắc mắc của người dùng một cách nhiệt tình.</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <p><strong>Lưu ý:</strong> MinhSoora không thể đảm bảo 100% uptime do có thể phụ thuộc vào Discord API, server hosting hoặc các sự cố kỹ thuật ngoài tầm kiểm soát.</p>
+                    </div>
+                </div>
+
+                <div class="tos-section">
+                    <h2>⚖️ Giới hạn Trách nhiệm</h2>
+                    <p>MinhSoora không chịu trách nhiệm về bất kỳ thiệt hại trực tiếp hoặc gián tiếp nào phát sinh từ việc sử dụng Bot Misaka, bao gồm nhưng không giới hạn ở:</p>
+                    <ul>
+                        <li>Mất mát dữ liệu, thông tin cá nhân hoặc tiến trình trong game</li>
+                        <li>Gián đoạn dịch vụ, downtime hoặc không thể truy cập Bot</li>
+                        <li>Xung đột, tranh chấp giữa các thành viên trong server Discord</li>
+                        <li>Sự cố kỹ thuật từ phía Discord Platform hoặc bên thứ ba</li>
+                        <li>Thiệt hại về mặt tinh thần hoặc danh tiếng</li>
+                        <li>Hậu quả từ việc sử dụng sai mục đích hoặc vi phạm điều khoản</li>
+                    </ul>
+                    
+                    <h3>💡 Khuyến cáo</h3>
+                    <p>Người dùng nên sử dụng Bot một cách hợp lý và không nên phụ thuộc hoàn toàn vào dịch vụ cho các hoạt động quan trọng.</p>
+                </div>
+
+                <div class="tos-section">
+                    <h2>🔒 Quyền riêng tư và Bảo mật</h2>
+                    <p>Chúng tôi cam kết bảo vệ quyền riêng tư của người dùng và chỉ thu thập dữ liệu cần thiết để vận hành Bot:</p>
+                    <ul>
+                        <li>Thu thập ID Discord, tên người dùng và server để xử lý lệnh</li>
+                        <li>Lưu trữ dữ liệu game economy và thống kê sử dụng</li>
+                        <li>Không chia sẻ thông tin cá nhân với bên thứ ba</li>
+                        <li>Không đọc nội dung tin nhắn riêng tư (DM)</li>
+                        <li>Áp dụng mã hóa và bảo mật dữ liệu theo tiêu chuẩn cao</li>
+                    </ul>
+                    <p>Người dùng có quyền yêu cầu xóa dữ liệu cá nhân bằng cách liên hệ với chúng tôi qua thông tin đã cung cấp.</p>
+                </div>
+
+                <div class="tos-section">
+                    <h2>🔄 Thay đổi Điều khoản</h2>
+                    <p>MinhSoora có quyền thay đổi, bổ sung hoặc xóa bỏ bất kỳ phần nào của Điều khoản này vào bất kỳ thời điểm nào. Các thay đổi quan trọng sẽ được thông báo qua:</p>
+                    <ul>
+                        <li>Cập nhật trên trang web chính thức</li>
+                        <li>Thông báo trong Discord Support Server</li>
+                        <li>Gửi thông báo qua Bot (nếu có tính năng)</li>
+                    </ul>
+                    <p>Việc bạn tiếp tục sử dụng dịch vụ sau khi có thay đổi đồng nghĩa với việc bạn chấp nhận và đồng ý với các điều khoản mới.</p>
+                    
+                    <h3>💡 Khuyến nghị</h3>
+                    <p>Bạn nên kiểm tra trang này định kỳ để cập nhật những thay đổi mới nhất trong Điều khoản Dịch vụ.</p>
+                </div>
+
+                <div class="tos-section">
+                    <h2>🚫 Chấm dứt Dịch vụ</h2>
+                    <p><strong>Quyền của MinhSoora:</strong> Chúng tôi có quyền chấm dứt hoặc tạm ngừng quyền truy cập của bạn vào Bot Misaka vào bất kỳ thời điểm nào, với hoặc không có lý do cụ thể, với hoặc không có thông báo trước.</p>
+                    <p><strong>Quyền của Người dùng:</strong> Bạn có thể chấm dứt sử dụng dịch vụ bất kỳ lúc nào bằng cách loại bỏ Bot khỏi server Discord của mình hoặc ngừng sử dụng các lệnh của Bot.</p>
+                    <ul>
+                        <li>Khi chấm dứt dịch vụ, mọi dữ liệu liên quan có thể bị xóa</li>
+                        <li>Không thể khôi phục dữ liệu sau khi đã xóa</li>
+                        <li>Các tranh chấp phát sinh sẽ được giải quyết theo pháp luật Việt Nam</li>
+                    </ul>
+                    
+                    <h3>⚠️ Chấm dứt do vi phạm</h3>
+                    <div class="highlight-box">
+                        <p>Tài khoản vi phạm nghiêm trọng có thể bị chấm dứt vĩnh viễn mà không có cơ hội khúc nại.</p>
+                    </div>
+                </div>
+
+      
+
+                <div class="tos-section">
+                    <h2>📝 Điều khoản Cuối</h2>
+                    <p>Bằng việc sử dụng Bot Misaka, bạn xác nhận rằng bạn đã đọc, hiểu và đồng ý với tất cả các điều khoản được nêu trong tài liệu này.</p>
+                    <p>Nếu bạn không đồng ý với bất kỳ điều khoản nào, vui lòng ngừng sử dụng dịch vụ ngay lập tức.</p>
+                </div>
+
+                <div class="tos-section" style="text-align: center; padding: 2rem 0; border-top: 2px solid rgba(56, 189, 248, 0.3); margin-top: 3rem;">
+                    <h2>💙 Lời cảm ơn</h2>
+                    <p style="font-size: 1.1rem; color: #cbd5e1;">
+                        Cảm ơn bạn đã tin tưởng và sử dụng Bot Misaka. Chúng tôi luôn nỗ lực để mang đến trải nghiệm tốt nhất cho cộng đồng Discord Việt Nam!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="chinhsachsudung.html">Điều khoản sử dụng</a>
-            <a href="#">Chính sách bảo mật</a>
-            <a href="#">Hỗ trợ</a>
+    <footer id="support">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Misachi</h3>
+                <p style="color: #bbb;">Bot Discord giải trí tốt nhất cho server của bạn. Mang đến niềm vui cho cộng đồng.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liên kết nhanh</h3>
+                <ul>
+                    <li><a href="#" onclick="showHome()">Trang chủ</a></li>
+                    <li><a href="#features">Tính năng</a></li>
+                    <li><a href="#" onclick="showTOS()">Điều khoản sử dụng</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Cộng đồng</h3>
+                <ul>
+                    <li><a href="https://dsc.gg/marus">Discord Server</a></li>
+                    <li><a href="https://top.gg/bot/1354343688121221131">Vote Bot</a></li>
+                    <li><a href="#support">Hỗ trợ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liên hệ</h3>
+                <ul>
+                    <li><a href="mailto:minhsoora@gmail.com">Email: minhsoora@gmail.com</a></li>
+                    <li><a href="tel:+84903618454">Hotline: +84 903 618 454</a></li>
+                    <li><a href="#" onclick="showTOS()">Điều khoản dịch vụ</a></li>
+                </ul>
+            </div>
         </div>
-        <p class="footer-text">&copy; 2025 Misachi Discord Bot. Made with ❤️ by MinhSoora</p>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Misachi. All rights reserved. Made with ❤️ for Discord communities.</p>
+        </div>
     </footer>
 
+    <!-- Scroll to top button -->
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        ↑
+    </div>
+
     <script>
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(0, 0, 0, 0.7)';
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Check URL parameters on page load
+        function checkURLParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page');
+            
+            if (page === 'tos' || page === 'terms') {
+                // Don't call showTOS here, just set display directly
+                document.getElementById('homeContent').style.display = 'none';
+                document.getElementById('tosContent').classList.add('active');
             } else {
-                navbar.style.background = 'rgba(0, 0, 0, 0.5)';
+                document.getElementById('homeContent').style.display = 'block';
+                document.getElementById('tosContent').classList.remove('active');
+            }
+        }
+
+        // Update URL without reload
+        function updateURL(page) {
+            const url = new URL(window.location);
+            if (page === 'tos') {
+                url.searchParams.set('page', 'tos');
+            } else {
+                url.searchParams.delete('page');
+            }
+            window.history.pushState({}, '', url);
+        }
+
+        // Show/Hide pages
+        function showHome() {
+            document.getElementById('homeContent').style.display = 'block';
+            document.getElementById('tosContent').classList.remove('active');
+            document.getElementById('navLinks').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateURL('home');
+        }
+
+        function showTOS() {
+            document.getElementById('homeContent').style.display = 'none';
+            document.getElementById('tosContent').classList.add('active');
+            document.getElementById('navLinks').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateURL('tos');
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Scroll to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('nav');
+            const navLinks = document.getElementById('navLinks');
+            if (!nav.contains(e.target)) {
+                navLinks.classList.remove('active');
             }
         });
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                const href = this.getAttribute('href');
+                if (href !== '#' && !this.hasAttribute('onclick')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 }
             });
         });
 
-        // Parallax effect for background text
+        // Add parallax effect to hero section
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
-            const bgText1 = document.querySelector('.bg-text-1');
-            const bgText2 = document.querySelector('.bg-text-2');
-            
-            if (bgText1) bgText1.style.transform = `translateX(${scrolled * 0.1}px) rotate(-5deg)`;
-            if (bgText2) bgText2.style.transform = `translateX(-${scrolled * 0.1}px) rotate(5deg)`;
+            const hero = document.querySelector('.hero');
+            if (hero && document.getElementById('homeContent').style.display !== 'none') {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
         });
 
-        // Fade in animation for feature cards
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Add 3D tilt effect to feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+            });
+        });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
+        // Check URL parameters on page load
+        function checkURLParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page');
+            
+            if (page === 'tos' || page === 'terms') {
+                showTOS();
+            } else {
+                showHome();
+            }
+        }
+
+        // Update URL without reload
+        function updateURL(page) {
+            const url = new URL(window.location);
+            if (page === 'tos') {
+                url.searchParams.set('page', 'tos');
+            } else {
+                url.searchParams.delete('page');
+            }
+            window.history.pushState({}, '', url);
+        }
+
+        // Modified showHome function
+        function showHome() {
+            document.getElementById('homeContent').style.display = 'block';
+            document.getElementById('tosContent').classList.remove('active');
+            document.getElementById('navLinks').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateURL('home');
+        }
+
+        // Modified showTOS function
+        function showTOS() {
+            document.getElementById('homeContent').style.display = 'none';
+            document.getElementById('tosContent').classList.add('active');
+            document.getElementById('navLinks').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateURL('tos');
+        }
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', () => {
+            checkURLParams();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            checkURLParams(); // Check URL params first
+            
+            // Add entrance animation to elements
+            setTimeout(() => {
+                document.querySelectorAll('.feature-card').forEach((card, index) => {
                     setTimeout(() => {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
                     }, index * 100);
-                }
-            });
-        }, observerOptions);
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.feature-card');
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(card);
-            });
+                });
+            }, 500);
         });
     </script>
 </body>
-                        </html>
+</html>
