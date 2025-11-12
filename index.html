@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Misachi - Discord Bot Giải Trí</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
     <style>
         * {
             margin: 0;
@@ -17,6 +19,62 @@
             color: #fff;
             position: relative;
             overflow-x: hidden;
+        }
+
+        /* Custom Icons */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
+
+        .icon-star {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-users {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-vote {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-coin {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fbbf24'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%23f59e0b' stroke-width='2' fill='%23fbbf24'/%3E%3Ctext x='12' y='16' text-anchor='middle' font-size='12' fill='%23fff' font-weight='bold'%3E%24%3C/text%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-wave {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M23 17c0 3.31-2.69 6-6 6v-1.5c2.48 0 4.5-2.02 4.5-4.5H23zM1 7c0-3.31 2.69-6 6-6v1.5C4.52 2.5 2.5 4.52 2.5 7H1zm7.01-6v2L11.95 1C9.29 1 7 3.29 7 5.99V11c0-3.31-2.69-6-6-6v2c2.21 0 4 1.79 4 4v5c0 3.31 2.69 6 6 6v-2c-2.21 0-4-1.79-4-4v-5c0-3.31 2.69-6 6-6v2c-2.21 0-4 1.79-4 4v6.01c0 3.31 2.69 6 6 6v-2c-2.21 0-4-1.79-4-4V11c0-3.31 2.69-6 6-6z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-pet {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Ccircle cx='4.5' cy='9.5' r='2.5'/%3E%3Ccircle cx='9' cy='5.5' r='2.5'/%3E%3Ccircle cx='15' cy='5.5' r='2.5'/%3E%3Ccircle cx='19.5' cy='9.5' r='2.5'/%3E%3Cpath d='M17.34 14.86c-.87-1.02-1.6-1.89-2.48-2.91-.46-.54-1.05-1.08-1.75-1.32-.11-.04-.22-.07-.33-.09-.25-.04-.52-.04-.78-.04s-.53 0-.79.05c-.11.02-.22.05-.33.09-.7.24-1.28.78-1.75 1.32-.87 1.02-1.6 1.89-2.48 2.91-1.31 1.31-2.92 2.76-2.62 4.79.29 1.02 1.02 2.03 2.33 2.32.73.15 3.06-.44 5.54-.44h.18c2.48 0 4.81.58 5.54.44 1.31-.29 2.04-1.31 2.33-2.32.31-2.04-1.3-3.49-2.61-4.8z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-shield {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-robot {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3v8h2v-2h18v2h2v-8c0-1.66-1.34-3-3-3zM7.5 16c-.83 0-1.5-.67-1.5-1.5S6.67 13 7.5 13s1.5.67 1.5 1.5S8.33 16 7.5 16zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-add {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-heart {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-arrow-up {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 14l5-5 5 5z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .icon-arrow-back {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z'/%3E%3C/svg%3E") center/contain no-repeat;
         }
 
         /* Animated Grid Background */
@@ -75,7 +133,7 @@
             }
         }
 
-        /* Navbar with blur effect */
+        /* Navbar */
         nav {
             background: rgba(10, 10, 20, 0.7);
             backdrop-filter: blur(20px);
@@ -85,18 +143,6 @@
             z-index: 1000;
             border-bottom: 1px solid rgba(56, 189, 248, 0.3);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            animation: slideDown 0.5s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .nav-container {
@@ -136,12 +182,6 @@
             overflow: hidden;
             border: 2px solid rgba(56, 189, 248, 0.5);
             position: relative;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); }
-            50% { box-shadow: 0 0 30px rgba(56, 189, 248, 0.9); }
         }
 
         .logo-icon img {
@@ -200,6 +240,9 @@
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
             position: relative;
             overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .invite-btn::before {
@@ -232,24 +275,12 @@
             padding: 4rem 2rem;
         }
 
-        /* Hero Section with animations */
+        /* Hero Section */
         .hero {
             max-width: 1200px;
             margin: 0 auto;
             padding: 4rem 2rem;
             text-align: center;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         h1 {
@@ -273,29 +304,21 @@
             color: #bbb;
             margin-bottom: 2rem;
             line-height: 1.6;
-            animation: fadeInUp 1s ease-out 0.2s both;
         }
 
         .highlight {
             color: #38bdf8;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-            animation: glow 2s ease-in-out infinite;
         }
 
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
-            50% { text-shadow: 0 0 20px rgba(56, 189, 248, 0.8); }
-        }
-
-        /* Stats with hover effects */
+        /* Stats */
         .stats {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
             margin: 2rem 0;
             flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.4s both;
         }
 
         .stat-item {
@@ -308,23 +331,6 @@
             box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
-        }
-
-        .stat-item::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
-            animation: rotate 4s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         .stat-item:hover {
@@ -352,14 +358,13 @@
             z-index: 1;
         }
 
-        /* Buttons with ripple effect */
+        /* Buttons */
         .button-group {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin: 2rem 0;
             flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         .btn {
@@ -373,24 +378,6 @@
             gap: 10px;
             position: relative;
             overflow: hidden;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        .btn:active::after {
-            width: 300px;
-            height: 300px;
         }
 
         .btn-primary {
@@ -418,7 +405,7 @@
             box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
         }
 
-        /* Bot Image with 3D effect */
+        /* Bot Image */
         .bot-image {
             max-width: 600px;
             margin: 3rem auto;
@@ -427,27 +414,10 @@
             box-shadow: 0 25px 80px rgba(56, 189, 248, 0.5);
             border: 3px solid rgba(56, 189, 248, 0.4);
             transition: all 0.5s;
-            animation: fadeInUp 1s ease-out 0.8s both;
-            position: relative;
-        }
-
-        .bot-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .bot-image:hover::before {
-            left: 100%;
         }
 
         .bot-image:hover {
-            transform: scale(1.05) rotateY(5deg);
+            transform: scale(1.05);
             box-shadow: 0 30px 100px rgba(56, 189, 248, 0.7);
         }
 
@@ -455,14 +425,9 @@
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.5s;
         }
 
-        .bot-image:hover img {
-            transform: scale(1.1);
-        }
-
-        /* Features with stagger animation and images */
+        /* Features */
         .features {
             max-width: 1200px;
             margin: 4rem auto;
@@ -480,31 +445,7 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            animation: fadeInUp 0.8s ease-out both;
             backdrop-filter: blur(10px);
-        }
-
-        .feature-card:nth-child(1) { animation-delay: 0.1s; }
-        .feature-card:nth-child(2) { animation-delay: 0.2s; }
-        .feature-card:nth-child(3) { animation-delay: 0.3s; }
-        .feature-card:nth-child(4) { animation-delay: 0.4s; }
-        .feature-card:nth-child(5) { animation-delay: 0.5s; }
-        .feature-card:nth-child(6) { animation-delay: 0.6s; }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
         }
 
         .feature-card:hover {
@@ -541,19 +482,10 @@
             transition: transform 0.3s;
         }
 
-        .feature-card:hover .feature-icon {
-            transform: scale(1.2) rotate(10deg);
-        }
-
         .feature-title {
             font-size: 1.5rem;
             color: #38bdf8;
             margin-bottom: 1rem;
-            transition: color 0.3s;
-        }
-
-        .feature-card:hover .feature-title {
-            color: #60d5ff;
         }
 
         .feature-desc {
@@ -561,14 +493,13 @@
             line-height: 1.6;
         }
 
-        /* TOS Page Styles */
+        /* TOS Page */
         .tos-container {
             display: none;
         }
 
         .tos-container.active {
             display: block;
-            animation: fadeInUp 0.5s ease-out;
         }
 
         .tos-header {
@@ -603,9 +534,6 @@
             color: #38bdf8;
             font-size: 1.8rem;
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .tos-section h3 {
@@ -646,10 +574,6 @@
             padding: 1.5rem;
             border-radius: 8px;
             margin: 1.5rem 0;
-        }
-
-        .highlight-box p {
-            margin: 0;
         }
 
         .back-btn {
@@ -693,22 +617,6 @@
         .footer-section h3 {
             color: #38bdf8;
             margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .footer-section h3::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 50%;
-            height: 2px;
-            background: linear-gradient(90deg, #38bdf8, transparent);
-        }
-
-        .footer-section ul {
-            list-style: none;
         }
 
         .footer-section a {
@@ -717,26 +625,11 @@
             display: block;
             margin: 0.5rem 0;
             transition: all 0.3s;
-            position: relative;
-            padding-left: 0;
-        }
-
-        .footer-section a::before {
-            content: '→';
-            position: absolute;
-            left: -20px;
-            opacity: 0;
-            transition: all 0.3s;
         }
 
         .footer-section a:hover {
             color: #38bdf8;
-            padding-left: 20px;
-        }
-
-        .footer-section a:hover::before {
-            opacity: 1;
-            left: 0;
+            padding-left: 10px;
         }
 
         .footer-bottom {
@@ -747,23 +640,7 @@
             color: #666;
         }
 
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            transition: transform 0.3s;
-        }
-
-        .mobile-menu-btn:active {
-            transform: scale(0.9);
-        }
-
-        /* Scroll to top button */
+        /* Scroll to top */
         .scroll-top {
             position: fixed;
             bottom: 30px;
@@ -781,8 +658,6 @@
             transition: all 0.3s;
             z-index: 999;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
-            font-size: 1.5rem;
-            color: white;
         }
 
         .scroll-top.visible {
@@ -793,6 +668,17 @@
         .scroll-top:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 30px rgba(56, 189, 248, 0.7);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
         }
 
         @media (max-width: 968px) {
@@ -825,49 +711,22 @@
             h1 {
                 font-size: 2.5rem;
             }
-
-            .stats {
-                gap: 1rem;
-            }
-
-            .button-group {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .tos-content {
-                padding: 2rem 1.5rem;
-            }
-
-            .tos-header h1 {
-                font-size: 2rem;
-            }
         }
 
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
             }
-
-            .feature-card {
-                padding: 1.5rem;
-            }
-
-            .tos-section h2 {
-                font-size: 1.5rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Floating Particles -->
     <div class="particles" id="particles"></div>
 
-    <!-- Navbar -->
-    <nav>
+    <nav class="animate__animated animate__fadeInDown">
         <div class="nav-container">
             <div class="logo" onclick="showHome()">
-                <div class="logo-icon" id="botAvatar">
+                <div class="logo-icon animate__animated animate__pulse animate__infinite">
                     <img src="https://cdn.discordapp.com/avatars/1354343688121221131/e98e15706673b26f5483a13203c4d731.webp?size=1024" alt="Misachi Logo">
                 </div>
                 <span>Misachi</span>
@@ -877,125 +736,129 @@
                 <li><a href="#" onclick="showTOS()">Điều khoản</a></li>
             </ul>
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
-            <a href="https://discord.com/oauth2/authorize?client_id=1354343688121221131&permissions=1759218604441591&integration_type=0&scope=bot+applications.commands" class="invite-btn">➕ Mời bot</a>
+            <a href="https://discord.com/oauth2/authorize?client_id=1354343688121221131&permissions=1759218604441591&integration_type=0&scope=bot+applications.commands" class="invite-btn">
+                <span class="icon icon-add"></span> Mời bot
+            </a>
         </div>
     </nav>
 
-    <!-- Home Content -->
     <div id="homeContent">
-        <!-- Hero Section -->
         <section class="hero" id="home">
-            <h1>Discord Bot Phức Hợp: Misachi</h1>
-            <p class="subtitle">
+            <h1 class="animate__animated animate__fadeInUp">Discord Bot Phức Hợp: Misachi</h1>
+            <p class="subtitle animate__animated animate__fadeInUp animate__delay-1s">
                 MinhSoora mang đến cho bạn 1 bot discord nhiều chức năng.<br>
                 Dễ dàng sử dụng, hỗ trợ bạn cách sử dụng.<br>
                 Dàng thiết lập và hoàn toàn <span class="highlight">miễn phí</span>.
             </p>
 
-            <!-- Stats -->
             <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-number">⭐ 5/5</div>
+                <div class="stat-item animate__animated animate__zoomIn" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-number"><span class="icon icon-star"></span> 5/5</div>
                     <div class="stat-label">(đánh giá)</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">👥 10+</div>
+                <div class="stat-item animate__animated animate__zoomIn" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-number"><span class="icon icon-users"></span> 10+</div>
                     <div class="stat-label">servers</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number">👍 0</div>
+                <div class="stat-item animate__animated animate__zoomIn" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-number"><span class="icon icon-vote"></span> 0</div>
                     <div class="stat-label">votes mỗi tháng</div>
                 </div>
             </div>
 
-            <!-- Buttons -->
             <div class="button-group">
-                <a href="https://discord.com/oauth2/authorize?client_id=1354343688121221131&permissions=1759218604441591&integration_type=0&scope=bot+applications.commands" class="btn btn-primary">📦 Mời bot</a>
-                <a href="https://top.gg/bot/1354343688121221131" class="btn btn-secondary">👍 Vote bot</a>
-                <a href="https://minhsoora.site/donate" class="btn btn-secondary">❤️ Hỗ trợ</a>
+                <a href="https://discord.com/oauth2/authorize?client_id=1354343688121221131&permissions=1759218604441591&integration_type=0&scope=bot+applications.commands" class="btn btn-primary animate__animated animate__pulse animate__infinite">
+                    <span class="icon icon-add"></span> Mời bot
+                </a>
+                <a href="https://top.gg/bot/1354343688121221131" class="btn btn-secondary" data-aos="fade-right">
+                    <span class="icon icon-vote"></span> Vote bot
+                </a>
+                <a href="https://minhsoora.site/donate" class="btn btn-secondary" data-aos="fade-left">
+                    <span class="icon icon-heart"></span> Hỗ trợ
+                </a>
             </div>
 
-            <!-- Bot Image -->
-            <div class="bot-image">
+            <div class="bot-image animate__animated animate__fadeInUp animate__delay-2s" data-aos="zoom-in">
                 <img src="Screenshot_20251101_183710_Facebook_251102014914.jpg" alt="Misachi Character">
             </div>
         </section>
 
-        <!-- Features -->
         <section class="features" id="features">
-            <div class="feature-card">
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="feature-image">
                     <img src="economy.png" alt="Economy" onerror="this.parentElement.style.display='none'">
                 </div>
-                <div class="feature-icon">💰</div>
+                <div class="feature-icon"><span class="icon icon-coin" style="width: 48px; height: 48px;"></span></div>
                 <h3 class="feature-title">Economy</h3>
                 <p class="feature-desc">Kiếm tiền, đánh bạc và vươn lên đầu trên bảng xếp hạng!</p>
             </div>
-            <div class="feature-card">
+            
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="feature-image">
-                    <img src="km_20251102_480p_15f_20251102_094548.gif" alt="Mini-games" onerror="this.parentElement.style.display='none'">
+                    <img src="km_20251102_480p_15f_20251102_094548.gif" alt="Voice Notification" onerror="this.parentElement.style.display='none'">
                 </div>
-                <div class="feature-icon">👋</div>
+                <div class="feature-icon"><span class="icon icon-wave" style="width: 48px; height: 48px;"></span></div>
                 <h3 class="feature-title">Tự động thông báo khi có người tham gia phòng Voice</h3>
                 <p class="feature-desc">Bằng lệnh /toggle voicenotify, bạn có thể mở chức năng này khiến server của bạn thú vị hơn.</p>
             </div>
-            <div class="feature-card">
+            
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="feature-image">
-                    <img src="kmc_20251102_095315.png" alt="Thiết lập dễ dàng" onerror="this.parentElement.style.display='none'">
+                    <img src="kmc_20251102_095315.png" alt="Pet System" onerror="this.parentElement.style.display='none'">
                 </div>
-                <div class="feature-icon">🐶</div>
+                <div class="feature-icon"><span class="icon icon-pet" style="width: 48px; height: 48px;"></span></div>
                 <h3 class="feature-title">Hệ thống thú vật</h3>
                 <p class="feature-desc">Săn bắt và tìm kiếm những con vật, sinh vật đặc biệt và chiến đấu!</p>
             </div>
-            <div class="feature-card">
+            
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="feature-image">
-                    <img src="kmc_20251103_105500.png" alt="moderation" onerror="this.parentElement.style.display='none'">
+                    <img src="kmc_20251103_105500.png" alt="Moderation" onerror="this.parentElement.style.display='none'">
                 </div>
-                <div class="feature-icon">🛡</div>
+                <div class="feature-icon"><span class="icon icon-shield" style="width: 48px; height: 48px;"></span></div>
                 <h3 class="feature-title">Các lệnh quản lý</h3>
                 <p class="feature-desc">Có các lệnh ban,kick,warn,mute dễ dùng, hỗ trợ setup kênh log cho các hành động.</p>
             </div>
-            <div class="feature-card">
+            
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
                 <div class="feature-image">
-                    <img src="kmc_20251103_105721.png" alt="autoresponder" onerror="this.parentElement.style.display='none'">
+                    <img src="kmc_20251103_105721.png" alt="AutoResponder" onerror="this.parentElement.style.display='none'">
                 </div>
-                <div class="feature-icon">🖥</div>
+                <div class="feature-icon"><span class="icon icon-robot" style="width: 48px; height: 48px;"></span></div>
                 <h3 class="feature-title">AutoResponder</h3>
                 <p class="feature-desc">Setup dễ dàng các tin nhắn trả lời tự động</p>
             </div>
         </section>
     </div>
 
-    <!-- TOS Content -->
     <div id="tosContent" class="tos-container">
         <div class="page-container">
-            <a href="#" class="back-btn" onclick="showHome()">← Quay lại trang chủ</a>
+            <a href="#" class="back-btn animate__animated animate__fadeInLeft" onclick="showHome()">
+                <span class="icon icon-arrow-back"></span> Quay lại trang chủ
+            </a>
             
-            <div class="tos-header">
+            <div class="tos-header animate__animated animate__fadeInDown">
                 <h1>Điều khoản Dịch vụ</h1>
                 <p class="update-date">Vui lòng đọc kỹ các điều khoản trước khi sử dụng dịch vụ của chúng tôi</p>
                 <p class="update-date">Cập nhật lần cuối: 11/07/2025</p>
             </div>
 
-            <div class="tos-content">
+            <div class="tos-content animate__animated animate__fadeInUp">
                 <div class="tos-section">
                     <h2>📋 Giới thiệu</h2>
                     <p>Điều khoản Dịch vụ này (gọi tắt là "Điều khoản") là thỏa thuận pháp lý giữa bạn ("Người dùng") và Bot Misaka, cùng đơn vị quản lý MinhSoora.</p>
                     <p>Khi sử dụng dịch vụ của chúng tôi, bạn xác nhận rằng bạn đã đọc, hiểu rõ và đồng ý tuân thủ mọi điều khoản được nêu ra trong tài liệu này.</p>
                     
                     <div class="highlight-box">
-                        <p><strong>Lưu ý quan trọng:</strong> MinhSoora có quyền điều chỉnh, bổ sung hoặc thay đổi nội dung Điều khoản bất kỳ lúc nào mà không cần thông báo trước. Vì vậy, bạn nên thường xuyên kiểm tra để cập nhật phiên bản mới nhất.</p>
+                        <p><strong>Lưu ý quan trọng:</strong> MinhSoora có quyền điều chỉnh, bổ sung hoặc thay đổi nội dung Điều khoản bất kỳ lúc nào mà không cần thông báo trước.</p>
                     </div>
                 </div>
 
                 <div class="tos-section">
                     <h2>📞 Thông tin Liên hệ</h2>
-                    <p>Để liên hệ với chúng tôi về bất kỳ vấn đề gì liên quan đến dịch vụ, vui lòng sử dụng thông tin dưới đây:</p>
-                    
-                    <h3>Thông tin Developer</h3>
+                    <p>Để liên hệ với chúng tôi về bất kỳ vấn đề gì liên quan đến dịch vụ:</p>
                     <ul>
                         <li><strong>Email:</strong> minhsoora@gmail.com</li>
-                        
                         <li><strong>Discord Server:</strong> <a href="https://dsc.gg/marus" style="color: #38bdf8;">dsc.gg/marus</a></li>
                     </ul>
                 </div>
@@ -1004,203 +867,110 @@
                     <h2>📜 Điều khoản Sử dụng Bot</h2>
                     <p>Khi sử dụng Bot Misaka trong server Discord của bạn, bạn cam kết tuân thủ các quy định sau:</p>
                     <ul>
-                        <li>Không sử dụng tiền tệ ảo của Bot cho bất kỳ giao dịch, trao đổi hoặc mua bán dưới mọi hình thức ngoài đời thực.</li>
-                        <li>Không sử dụng Bot để spam, làm phiền hoặc quấy rối các thành viên khác trong server.</li>
-                        <li>Không cố gắng khai thác lỗi, hack hoặc lạm dụng các tính năng của Bot để thu lợi bất chính.</li>
-                        <li>Tuân thủ nghiêm ngặt các quy tắc và điều khoản sử dụng của Discord Platform.</li>
-                        <li>Sử dụng Bot một cách có trách nhiệm, tôn trọng và không vi phạm pháp luật.</li>
-                        <li>Không sử dụng Bot cho các mục đích bất hợp pháp hoặc có hại đến cộng đồng.</li>
+                        <li>Không sử dụng tiền tệ ảo của Bot cho bất kỳ giao dịch ngoài đời thực.</li>
+                        <li>Không sử dụng Bot để spam hoặc quấy rối các thành viên khác.</li>
+                        <li>Không cố gắng khai thác lỗi hoặc lạm dụng các tính năng của Bot.</li>
+                        <li>Tuân thủ các quy tắc của Discord Platform.</li>
+                        <li>Sử dụng Bot một cách có trách nhiệm.</li>
                     </ul>
-                    
-                    <h3>⚠️ Hậu quả vi phạm</h3>
-                    <div class="highlight-box">
-                        <p>Vi phạm bất kỳ điều khoản nào có thể dẫn đến việc khóa tài khoản vĩnh viễn, blacklist khỏi hệ thống hoặc chấm dứt dịch vụ ngay lập tức mà không cần báo trước.</p>
-                    </div>
                 </div>
 
                 <div class="tos-section">
                     <h2>✅ Trách nhiệm của MinhSoora</h2>
-                    <p>MinhSoora cam kết và có trách nhiệm:</p>
                     <ul>
-                        <li>Cung cấp dịch vụ với tính ổn định, bảo mật và hiệu suất tốt nhất trong phạm vi có thể.</li>
-                        <li>Xử lý mọi khiếu nại, tranh chấp và xung đột một cách công bằng, minh bạch và kịp thời.</li>
-                        <li>Bảo vệ thông tin cá nhân và dữ liệu của người dùng theo chính sách bảo mật nghiêm ngặt.</li>
-                        <li>Liên tục cải thiện, phát triển và bổ sung các tính năng mới cho Bot.</li>
-                        <li>Hỗ trợ kỹ thuật và giải đáp thắc mắc của người dùng một cách nhiệt tình.</li>
+                        <li>Cung cấp dịch vụ với tính ổn định và bảo mật tốt nhất.</li>
+                        <li>Xử lý khiếu nại một cách công bằng và kịp thời.</li>
+                        <li>Bảo vệ thông tin cá nhân của người dùng.</li>
+                        <li>Liên tục cải thiện và phát triển Bot.</li>
                     </ul>
-                    
-                    <div class="highlight-box">
-                        <p><strong>Lưu ý:</strong> MinhSoora không thể đảm bảo 100% uptime do có thể phụ thuộc vào Discord API, server hosting hoặc các sự cố kỹ thuật ngoài tầm kiểm soát.</p>
-                    </div>
-                </div>
-
-                <div class="tos-section">
-                    <h2>⚖️ Giới hạn Trách nhiệm</h2>
-                    <p>MinhSoora không chịu trách nhiệm về bất kỳ thiệt hại trực tiếp hoặc gián tiếp nào phát sinh từ việc sử dụng Bot Misaka, bao gồm nhưng không giới hạn ở:</p>
-                    <ul>
-                        <li>Mất mát dữ liệu, thông tin cá nhân hoặc tiến trình trong game</li>
-                        <li>Gián đoạn dịch vụ, downtime hoặc không thể truy cập Bot</li>
-                        <li>Xung đột, tranh chấp giữa các thành viên trong server Discord</li>
-                        <li>Sự cố kỹ thuật từ phía Discord Platform hoặc bên thứ ba</li>
-                        <li>Thiệt hại về mặt tinh thần hoặc danh tiếng</li>
-                        <li>Hậu quả từ việc sử dụng sai mục đích hoặc vi phạm điều khoản</li>
-                    </ul>
-                    
-                    <h3>💡 Khuyến cáo</h3>
-                    <p>Người dùng nên sử dụng Bot một cách hợp lý và không nên phụ thuộc hoàn toàn vào dịch vụ cho các hoạt động quan trọng.</p>
                 </div>
 
                 <div class="tos-section">
                     <h2>🔒 Quyền riêng tư và Bảo mật</h2>
-                    <p>Chúng tôi cam kết bảo vệ quyền riêng tư của người dùng và chỉ thu thập dữ liệu cần thiết để vận hành Bot:</p>
                     <ul>
-                        <li>Thu thập ID Discord, tên người dùng và server để xử lý lệnh</li>
-                        <li>Lưu trữ dữ liệu game economy và thống kê sử dụng</li>
-                        <li>Không chia sẻ thông tin cá nhân với bên thứ ba</li>
-                        <li>Không đọc nội dung tin nhắn riêng tư (DM)</li>
-                        <li>Áp dụng mã hóa và bảo mật dữ liệu theo tiêu chuẩn cao</li>
+                        <li>Thu thập ID Discord, tên người dùng để xử lý lệnh</li>
+                        <li>Lưu trữ dữ liệu game economy</li>
+                        <li>Không chia sẻ thông tin với bên thứ ba</li>
+                        <li>Không đọc tin nhắn riêng tư (DM)</li>
                     </ul>
-                    <p>Người dùng có quyền yêu cầu xóa dữ liệu cá nhân bằng cách liên hệ với chúng tôi qua thông tin đã cung cấp.</p>
-                </div>
-
-                <div class="tos-section">
-                    <h2>🔄 Thay đổi Điều khoản</h2>
-                    <p>MinhSoora có quyền thay đổi, bổ sung hoặc xóa bỏ bất kỳ phần nào của Điều khoản này vào bất kỳ thời điểm nào. Các thay đổi quan trọng sẽ được thông báo qua:</p>
-                    <ul>
-                        <li>Cập nhật trên trang web chính thức</li>
-                        <li>Thông báo trong Discord Support Server</li>
-                         </ul>
-                    <p>Việc bạn tiếp tục sử dụng dịch vụ sau khi có thay đổi đồng nghĩa với việc bạn chấp nhận và đồng ý với các điều khoản mới.</p>
-                    
-                    <h3>💡 Khuyến nghị</h3>
-                    <p>Bạn nên kiểm tra trang này định kỳ để cập nhật những thay đổi mới nhất trong Điều khoản Dịch vụ.</p>
-                </div>
-
-                <div class="tos-section">
-                    <h2>🚫 Chấm dứt Dịch vụ</h2>
-                    <p><strong>Quyền của MinhSoora:</strong> Chúng tôi có quyền chấm dứt hoặc tạm ngừng quyền truy cập của bạn vào Bot Misaka vào bất kỳ thời điểm nào, với hoặc không có lý do cụ thể, với hoặc không có thông báo trước.</p>
-                    <p><strong>Quyền của Người dùng:</strong> Bạn có thể chấm dứt sử dụng dịch vụ bất kỳ lúc nào bằng cách loại bỏ Bot khỏi server Discord của mình hoặc ngừng sử dụng các lệnh của Bot.</p>
-                    <ul>
-                        <li>Khi chấm dứt dịch vụ, mọi dữ liệu liên quan có thể bị xóa</li>
-                        <li>Không thể khôi phục dữ liệu sau khi đã xóa</li>
-                        <li>Các tranh chấp phát sinh sẽ được giải quyết theo pháp luật Việt Nam</li>
-                    </ul>
-                    
-                    <h3>⚠️ Chấm dứt do vi phạm</h3>
-                    <div class="highlight-box">
-                        <p>Tài khoản vi phạm nghiêm trọng có thể bị chấm dứt vĩnh viễn mà không có cơ hội khúc nại.</p>
-                    </div>
-                </div>
-
-      
-
-                <div class="tos-section">
-                    <h2>📝 Điều khoản Cuối</h2>
-                    <p>Bằng việc sử dụng Bot Misaka, bạn xác nhận rằng bạn đã đọc, hiểu và đồng ý với tất cả các điều khoản được nêu trong tài liệu này.</p>
-                    <p>Nếu bạn không đồng ý với bất kỳ điều khoản nào, vui lòng ngừng sử dụng dịch vụ ngay lập tức.</p>
                 </div>
 
                 <div class="tos-section" style="text-align: center; padding: 2rem 0; border-top: 2px solid rgba(56, 189, 248, 0.3); margin-top: 3rem;">
                     <h2>💙 Lời cảm ơn</h2>
                     <p style="font-size: 1.1rem; color: #cbd5e1;">
-                        Cảm ơn bạn đã tin tưởng và sử dụng Bot Misaka. Chúng tôi luôn nỗ lực để mang đến trải nghiệm tốt nhất cho cộng đồng Discord Việt Nam!
+                        Cảm ơn bạn đã tin tưởng và sử dụng Bot Misachi!
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer id="support">
         <div class="footer-content">
-            <div class="footer-section">
+            <div class="footer-section" data-aos="fade-up">
                 <h3>Misachi</h3>
-                <p style="color: #bbb;">Bot Discord giải trí tốt nhất cho server của bạn. Mang đến niềm vui cho cộng đồng.</p>
+                <p style="color: #bbb;">Bot Discord giải trí tốt nhất cho server của bạn.</p>
             </div>
-            <div class="footer-section">
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="100">
                 <h3>Liên kết nhanh</h3>
                 <ul>
                     <li><a href="#" onclick="showHome()">Trang chủ</a></li>
                     <li><a href="#features">Tính năng</a></li>
-                    <li><a href="#" onclick="showTOS()">Điều khoản sử dụng</a></li>
+                    <li><a href="#" onclick="showTOS()">Điều khoản</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
                 <h3>Cộng đồng</h3>
                 <ul>
                     <li><a href="https://dsc.gg/marus">Discord Server</a></li>
                     <li><a href="https://top.gg/bot/1354343688121221131">Vote Bot</a></li>
-                    <li><a href="#support">Hỗ trợ</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="300">
                 <h3>Liên hệ</h3>
                 <ul>
-                    <li><a href="mailto:minhsoora@gmail.com">Email: minhsoora@gmail.com</a></li>
-                    <li><a href="tel:+84903618454">Hotline: +84 903 618 454</a></li>
-                    <li><a href="#" onclick="showTOS()">Điều khoản dịch vụ</a></li>
+                    <li><a href="mailto:minhsoora@gmail.com">Email</a></li>
+                    <li><a href="tel:+84903618454">Hotline</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Misachi. All rights reserved. Made with ❤️ for Discord communities.</p>
+            <p>&copy; 2025 Misachi. Made with <span class="icon icon-heart" style="width: 16px; height: 16px;"></span> for Discord communities.</p>
         </div>
     </footer>
 
-    <!-- Scroll to top button -->
     <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
-        ↑
+        <span class="icon icon-arrow-up"></span>
     </div>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
 
-            for (let i = 0; i < particleCount; i++) {
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 15 + 's';
                 particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particlesContainer.appendChild(particle);
+                container.appendChild(particle);
             }
         }
 
-        // Check URL parameters on page load
-        function checkURLParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const page = urlParams.get('page');
-            
-            if (page === 'tos' || page === 'terms') {
-                // Don't call showTOS here, just set display directly
-                document.getElementById('homeContent').style.display = 'none';
-                document.getElementById('tosContent').classList.add('active');
-            } else {
-                document.getElementById('homeContent').style.display = 'block';
-                document.getElementById('tosContent').classList.remove('active');
-            }
-        }
-
-        // Update URL without reload
-        function updateURL(page) {
-            const url = new URL(window.location);
-            if (page === 'tos') {
-                url.searchParams.set('page', 'tos');
-            } else {
-                url.searchParams.delete('page');
-            }
-            window.history.pushState({}, '', url);
-        }
-
-        // Show/Hide pages
         function showHome() {
             document.getElementById('homeContent').style.display = 'block';
             document.getElementById('tosContent').classList.remove('active');
             document.getElementById('navLinks').classList.remove('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            updateURL('home');
+            AOS.refresh();
         }
 
         function showTOS() {
@@ -1208,24 +978,17 @@
             document.getElementById('tosContent').classList.add('active');
             document.getElementById('navLinks').classList.remove('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            updateURL('tos');
+            AOS.refresh();
         }
 
-        // Mobile menu toggle
         function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
+            document.getElementById('navLinks').classList.toggle('active');
         }
 
-        // Scroll to top functionality
         function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Show/hide scroll to top button
         window.addEventListener('scroll', function() {
             const scrollTop = document.getElementById('scrollTop');
             if (window.pageYOffset > 300) {
@@ -1235,131 +998,9 @@
             }
         });
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            const nav = document.querySelector('nav');
-            const navLinks = document.getElementById('navLinks');
-            if (!nav.contains(e.target)) {
-                navLinks.classList.remove('active');
-            }
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#' && !this.hasAttribute('onclick')) {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-
-        // Add parallax effect to hero section
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero && document.getElementById('homeContent').style.display !== 'none') {
-                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-            }
-        });
-
-        // Add 3D tilt effect to feature cards
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
-            });
-        });
-
-        // Check URL parameters on page load
-        function checkURLParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const page = urlParams.get('page');
-            
-            if (page === 'tos' || page === 'terms') {
-                showTOS();
-            } else {
-                showHome();
-            }
-        }
-
-        // Update URL without reload
-        function updateURL(page) {
-            const url = new URL(window.location);
-            if (page === 'tos') {
-                url.searchParams.set('page', 'tos');
-            } else {
-                url.searchParams.delete('page');
-            }
-            window.history.pushState({}, '', url);
-        }
-
-        // Modified showHome function
-        function showHome() {
-            document.getElementById('homeContent').style.display = 'block';
-            document.getElementById('tosContent').classList.remove('active');
-            document.getElementById('navLinks').classList.remove('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            updateURL('home');
-        }
-
-        // Modified showTOS function
-        function showTOS() {
-            document.getElementById('homeContent').style.display = 'none';
-            document.getElementById('tosContent').classList.add('active');
-            document.getElementById('navLinks').classList.remove('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            updateURL('tos');
-        }
-
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', () => {
-            checkURLParams();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // Initialize on page load
         window.addEventListener('DOMContentLoaded', () => {
             createParticles();
-            checkURLParams(); // Check URL params first
-            
-            // Add entrance animation to elements
-            setTimeout(() => {
-                document.querySelectorAll('.feature-card').forEach((card, index) => {
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-            }, 500);
         });
     </script>
 </body>
-</html>
+    </html>
